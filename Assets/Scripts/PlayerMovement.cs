@@ -5,12 +5,14 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     CharacterController controller;
     GameObject cam;
+    Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         controller = GetComponent<CharacterController>();
         cam = GameObject.Find("Main Camera");
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -33,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         controller.Move(moveDirection * Time.deltaTime);
+
+        animator.SetBool("moving", moveDirection != Vector3.zero);
 
     }
 }
