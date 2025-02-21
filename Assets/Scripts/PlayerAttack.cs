@@ -5,6 +5,10 @@ public class PlayerAttack : MonoBehaviour
     Animator animator;
     float conjurTimer;
 
+    [HideInInspector] public bool conjuring;
+    [HideInInspector] public bool explode;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,16 +21,19 @@ public class PlayerAttack : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.Space))
         {
-            animator.SetBool("conjur", true);
+            conjuring = true;
             conjurTimer -= Time.deltaTime;
         }
         else
         {
-            animator.SetBool("conjur", false);
+            conjuring = false;
         }
+
+        animator.SetBool("conjur", conjuring);
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
+
             if(conjurTimer <= 0.0f)
             {
                 animator.SetBool("release", true);
@@ -40,5 +47,17 @@ public class PlayerAttack : MonoBehaviour
     public void ReleaseReset()
     {
         animator.SetBool("release", false);
+
+    }
+
+    public void Explode()
+    {
+
+        GameObject[] floatingObjects = GameObject.FindGameObjectsWithTag("Floating");
+
+        for (int i = 0; i < floatingObjects.Length; i++)
+        {
+            floatingObjects[i].GetComponent<FloatingObject>().Explode();
+        }
     }
 }

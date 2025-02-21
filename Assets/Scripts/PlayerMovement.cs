@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     CharacterController controller;
     GameObject cam;
     Animator animator;
+    Vector3 moveDirection;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
         float horizontal = Input.GetAxisRaw("Horizontal");
 
-        Vector3 moveDirection = new Vector3(horizontal, 0.0f, vertical);
+        moveDirection = new Vector3(horizontal, 0.0f, vertical);
         moveDirection.Normalize();
 
         if(moveDirection != Vector3.zero)
@@ -38,5 +40,14 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetBool("moving", moveDirection != Vector3.zero);
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Floating"))
+        {
+            Debug.Log(collision.gameObject);
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(collision.gameObject.transform.position - transform.position * -10.0f);
+        }
     }
 }
