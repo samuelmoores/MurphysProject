@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Floating
+  - WIN
   layers:
   - Default
   - TransparentFX

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FloatingObject : MonoBehaviour
 {
+    GameManager manager;
     Rigidbody rb;
     PlayerAttack playerAttack;
     GameObject target;
@@ -10,6 +11,7 @@ public class FloatingObject : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerAttack = GameObject.Find("Player").GetComponent<PlayerAttack>();
         target = GameObject.Find("ConjuringArea");
         rb = GetComponent<Rigidbody>();
@@ -35,7 +37,10 @@ public class FloatingObject : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
             rb.linearVelocity = Vector3.zero;
 
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * 8.0f);
+            if(distance > 0.5f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * 8.0f);
+            }
         }
 
     }
@@ -50,5 +55,15 @@ public class FloatingObject : MonoBehaviour
 
         GetComponent<BoxCollider>().isTrigger = false;
         rb.AddForce(vec * 100.0f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("WIN"))
+        {
+            manager.AddWinToPlayersWins();
+            GetComponent<MeshRenderer>().material = GetComponent<MeshRenderer>().materials[1];
+            Debug.Log("YOU HAVE FUCKING WON YOU ASS");
+        }
     }
 }
