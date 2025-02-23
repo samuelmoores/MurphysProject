@@ -39,9 +39,11 @@ public class PlayerAttack : MonoBehaviour
                 animator.SetBool("release", true);
             }
 
-                conjurTimer = 2.0f;
+            conjurTimer = 2.0f;
+
+            GetComponent<AudioSource>().Stop();
         }
-       
+  
     }
 
     public void ReleaseReset()
@@ -58,6 +60,13 @@ public class PlayerAttack : MonoBehaviour
         for (int i = 0; i < floatingObjects.Length; i++)
         {
             floatingObjects[i].GetComponent<FloatingObject>().Explode();
+        }
+
+        GameObject[] troops = GameObject.FindGameObjectsWithTag("Enemy");
+
+        for(int i = 0; i < troops.Length; i++)
+        {
+            troops[i].GetComponent<TroopMovement>().TakeDamage();
         }
     }
 }

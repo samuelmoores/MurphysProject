@@ -40,6 +40,12 @@ public class Scoreboard : MonoBehaviour
             }
         }
 
+        if(manager.timer_gaslight_player < 0.0f)
+        {
+            hallOfFame.SetActive(false);
+
+        }
+
     }
 
 }

@@ -1,34 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-//author: youtube.com/@Filmstorm
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    public float CameraMoveSpeed = 120.0f;
     public Transform CameraFollowObject;
-    Vector3 FollorPOS;
+    public float inputSensitivity = 150.0f;
     public float clampAngle = 80.0f;
-    public float inputSensivity = 150.0f;
-    public GameObject CameraObj;
-    public GameObject PlayerObj;
-    public float camDistanceXToPlayer;
-    public float camDistanceYToPlayer;
-    public float camDistanceZToPlayer;
-    public float mouseX;
-    public float mouseY;
-    public float finalInputX;
-    public float finalInputZ;
-    public float smoothX;
-    public float smoothY;
-    public float rotX;
-    public float rotY;
 
-    public bool playerFell = false;
-    PlayerMovement player;
+    float rotX;
+    float rotY;
 
-    // Start is called before the first frame update
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Vector3 rot = transform.localRotation.eulerAngles;
@@ -43,23 +25,17 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            //float inputX = Input.GetAxis("RightStickHorizontal");
-            //float inputY = Input.GetAxis("RightStickVertical");
-            //mouseX = Input.GetAxis("Mouse X");
-            //mouseY = Input.GetAxis("Mouse Y");
 
-            finalInputX = Input.GetAxis("Mouse X");
-            finalInputZ = Input.GetAxis("Mouse Y");
+        float inputX = Input.GetAxis("Mouse X");
+        float inputZ = Input.GetAxis("Mouse Y");
 
-            rotY += finalInputX * inputSensivity * Time.deltaTime;
-            rotX += finalInputZ * inputSensivity * Time.deltaTime;
+        rotY += inputX * inputSensitivity * Time.deltaTime;
+        rotX += inputZ * inputSensitivity * Time.deltaTime;
 
-            rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+        rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
 
-            Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
-            transform.rotation = localRotation;
-
-        
+        Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
+        transform.rotation = localRotation;
     }
 
     private void LateUpdate()
@@ -70,6 +46,7 @@ public class CameraController : MonoBehaviour
     void CameraUpdater()
     {
         Transform target = CameraFollowObject;
+        float CameraMoveSpeed = 120.0f;
 
         float step = CameraMoveSpeed * Time.deltaTime;
 

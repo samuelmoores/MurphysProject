@@ -4,10 +4,10 @@ using UnityEngine.EventSystems;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed;
+    [HideInInspector] public Vector3 moveDirection;
     CharacterController controller;
     GameObject cam;
     Animator animator;
-    Vector3 moveDirection;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,12 +42,4 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Floating"))
-        {
-            Debug.Log(collision.gameObject);
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(collision.gameObject.transform.position - transform.position * -10.0f);
-        }
-    }
 }

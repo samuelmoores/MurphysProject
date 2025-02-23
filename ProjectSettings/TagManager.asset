@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floating
   - WIN
+  - Enemy
   layers:
   - Default
   - TransparentFX
