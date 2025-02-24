@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class FloatingObject : MonoBehaviour
 {
+    public GameObject meshRenderer;
     GameObject player;
     GameManager manager;
     PlayerMovement playerMovement;
     Rigidbody rb;
     PlayerAttack playerAttack;
     GameObject target;
-    Material red;
+    Material metal;
     Material green;
-    MeshRenderer meshRenderer;
     int colorIndex;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,9 +22,8 @@ public class FloatingObject : MonoBehaviour
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         target = GameObject.Find("ConjuringArea");
         rb = GetComponent<Rigidbody>();
-        meshRenderer = GetComponent<MeshRenderer>();
-        red = meshRenderer.materials[0]; 
-        green = meshRenderer.materials[1];
+        metal = meshRenderer.GetComponent<MeshRenderer>().materials[0]; 
+        green = meshRenderer.GetComponent<MeshRenderer>().materials[1];
 
         float max = 0.0f;
         float min = 2.0f;
@@ -76,12 +75,12 @@ public class FloatingObject : MonoBehaviour
 
             if(colorIndex == 0)
             {
-                meshRenderer.material = green;
+                meshRenderer.GetComponent<MeshRenderer>().material = green;
                 colorIndex++;
             }
             else if(colorIndex == 1)
             {
-                meshRenderer.material = red;
+                meshRenderer.GetComponent<MeshRenderer>().material = metal;
                 colorIndex = 0;
             }
         }
